@@ -1,0 +1,54 @@
+* SPICE3 file created from q3.ext - technology: scmos
+
+.include TSMC_180nm.txt
+.param SUPPLY=1.8
+.global gnd vdd
+.option scale=0.09u
+
+Vdd vdd gnd 'SUPPLY'
+VGS a gnd 'SUPPLY'
+
+M1 b a gnd Gnd CMOSN w=20 l=2
++  ad=120 pd=52 as=240 ps=104
+M2 b a vdd vdd CMOSP w=50 l=2
++  ad=300 pd=112 as=600 ps=224
+M3 c b gnd Gnd CMOSN w=20 l=2
++  ad=120 pd=52 as=0 ps=0
+M4 c b vdd vdd CMOSP w=50 l=2
++  ad=300 pd=112 as=0 ps=0
+
+C0 vdd vdd 0.12fF
+C1 a b 0.07fF
+C2 b vdd 0.52fF
+C3 vdd b 0.08fF
+C4 c vdd 0.08fF
+C5 a vdd 0.08fF
+C6 vdd vdd 0.12fF
+C7 c b 0.07fF
+C8 c vdd 0.52fF
+C9 gnd b 0.31fF
+C10 gnd a 0.07fF
+C11 c gnd 0.24fF
+C12 vdd b 0.08fF
+C13 gnd Gnd 0.52fF
+C14 c Gnd 0.11fF
+C15 vdd Gnd 0.04fF
+C16 b Gnd 0.31fF
+C17 vdd Gnd 1.86fF
+C18 a Gnd 0.20fF
+C19 vdd Gnd 1.86fF
+
+.dc VGS 0 1.8 0.01
+
+.control
+run
+
+set curplottitle="SuryaSasanka_2019102036"
+let y=-v(a)+2.4363
+let y1=-v(a)+1.1019
+plot v(a) v(b) y y1
+let volt=v(b)
+plot deriv(volt)
+set hcopypscolor = 1 *White background
+hardcopy q3postplot.eps v(a) v(b) y y1
+.endc
